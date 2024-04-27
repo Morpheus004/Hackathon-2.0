@@ -1,4 +1,4 @@
-import Login from './login';
+import Login from './components/login';
 import React from 'react';
 import Navbarfarmar from './components/navbarfarmar';
 import MyStore from './components/MyStore';
@@ -10,7 +10,7 @@ const router=createBrowserRouter([
     element:<Login/>
   },
   {
-    path:'/navbarfarmar',
+    path:'/farmer',
     element:<Navbarfarmar/>,
     children:[
       {path:'mystore',element:<MyStore/>}

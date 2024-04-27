@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import axios from 'axios';
 
 function MyStore() {
   const [showModal, setShowModal] = useState(false);
@@ -15,6 +16,20 @@ function MyStore() {
     stock: '',
     organic: false
   });
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get('http://localhost:9000/product/api/products');
+      const product = response.data;
+      setProducts(product);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  };
 
   const handleClose = () => {
     setShowModal(false);
@@ -36,19 +51,26 @@ function MyStore() {
     setNewProduct({ ...newProduct, [name]: newValue });
   };
 
-  const handleSave = () => {
-    if (selectedProduct) {
-      const updatedProducts = products.map((product) => {
-        if (product === selectedProduct) {
-          return newProduct;
-        }
-        return product;
-      });
-      setProducts(updatedProducts);
-    } else {
-      setProducts([...products, newProduct]);
+  const handleSave = async () => {
+    try {
+      if (selectedProduct) {
+        const updatedProducts = products.map((product) => {
+          if (product === selectedProduct) {
+            return newProduct;
+          }
+          return product;
+        });
+        setProducts(updatedProducts);
+      } else {
+        // Add new product
+        const response = await axios.post('http://localhost:9000/product/api/products', newProduct);
+        const addedProduct = response.data;
+        setProducts([...products, addedProduct]);
+      }
+      handleClose();
+    } catch (error) {
+      console.error('Error saving product:', error);
     }
-    handleClose();
   };
 
   const handleEdit = (product) => {
