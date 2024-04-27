@@ -31,10 +31,10 @@ router.post("/", async (req, res) => {
           const uid = uidGenerated.rows[0].user_id;
           // console.log(uid);
           let table;
-          if (role === 'Farmer') {
+          if (role === 'farmer') {
             table = 'farmers';
-          } else if (role === 'Customer') {
-            table = 'customers';
+          } else if (role === 'ustomer') {
+            table = 'customer';
           }
 
           // Insert user into corresponding role table (students or alumni)

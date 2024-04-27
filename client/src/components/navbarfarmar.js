@@ -4,9 +4,14 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import {NavLink,Outlet}from 'react-router-dom';
+import {Outlet, useLoaderData}from 'react-router-dom';
+import axios from 'axios';
+import { getAuthToken } from "../utils/auth.js";
+import { jwtDecode } from "jwt-decode";
 
 function NavScrollExample() {
+  const data=useLoaderData();
+  console.log(data);
   return (
     <>
     <Navbar expand="lg" className="bg-body-tertiary">
@@ -19,7 +24,7 @@ function NavScrollExample() {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-            <Nav.Link href="/navbarfarmar/mystore">MyStore</Nav.Link>
+            <Nav.Link href="/farmer/mystore">MyStore</Nav.Link>
             <Nav.Link href="#action2">Store</Nav.Link>
             <Nav.Link href="#action2">Cart</Nav.Link>
             <Nav.Link href="#action2">Profile</Nav.Link>
@@ -55,3 +60,26 @@ function NavScrollExample() {
 }
 
 export default NavScrollExample;
+
+
+
+export async function farmerDataLoader(){
+  try {
+    const token = getAuthToken();
+    const decodedToken = jwtDecode(token);
+    const email = decodedToken.email;
+
+    try {
+      //enter route path
+      const response = await axios.get(`http://localhost:9000/data/farmer/${email}`);
+      const data = response.data;
+      return { data };
+    } catch (error) {
+      console.error('Error fetching farmer data:', error);
+      throw new Error('Failed to fetch farmer data');
+    }
+  } catch (error) {
+    console.error('Error decoding auth token:', error);
+    throw new Error('Invalid auth token');
+  }
+}
