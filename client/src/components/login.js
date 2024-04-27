@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import classes from './CSS/login.module.css';
+import classes from '../CSS/login.module.css';
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
@@ -38,7 +38,7 @@ function Login() {
           const expiration = new Date();
           expiration.setHours(expiration.getHours() + 1);
           localStorage.setItem('expiration', expiration.toISOString());
-          navigate(`/${decodedToken.role}/home`);
+          navigate(`/${decodedToken.role}`);
         }
       } catch (error) {
         console.error("Error decoding token:", error);
@@ -70,7 +70,7 @@ function Login() {
         const expiration = new Date();
         expiration.setHours(expiration.getHours() + 1);
         localStorage.setItem('expiration', expiration.toISOString());
-        navigate(`/${decodedToken.role}/home`);
+        navigate(`/${decodedToken.role}`);
       }
 
       // Optionally, redirect to a new page or perform other actions upon successful signup
