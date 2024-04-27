@@ -4,8 +4,14 @@ import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
+import { useRouteLoaderData } from 'react-router-dom';
+import FileUpload from './FileUpload';
 
 function MyStore() {
+  const data=useRouteLoaderData('farmerloader');
+  // const farmer_id=data.fa
+  // console.log(data);
+  // console.log(data.data.farmer_id);
   const [showModal, setShowModal] = useState(false);
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -23,8 +29,9 @@ function MyStore() {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get('http://localhost:9000/product/api/products');
+      const response = await axios.get('http://localhost:9000/product/api/products/'+data.data.farmer_id);
       const product = response.data;
+      console.log("Products:",product);
       setProducts(product);
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -54,16 +61,18 @@ function MyStore() {
   const handleSave = async () => {
     try {
       if (selectedProduct) {
+        const response = await axios.put(`http://localhost:9000/product/api/products/${selectedProduct.product_id}`, newProduct);
+        const updatedProduct = response.data;
         const updatedProducts = products.map((product) => {
-          if (product === selectedProduct) {
-            return newProduct;
+          if (product.product_id === updatedProduct.product_id) {
+            return updatedProduct;
           }
           return product;
         });
         setProducts(updatedProducts);
       } else {
         // Add new product
-        const response = await axios.post('http://localhost:9000/product/api/products', newProduct);
+        const response = await axios.post('http://localhost:9000/product/api/products/'+data.data.farmer_id, newProduct);
         const addedProduct = response.data;
         setProducts([...products, addedProduct]);
       }
@@ -79,10 +88,20 @@ function MyStore() {
     handleShow();
   };
 
-  const handleDelete = (product) => {
-    const updatedProducts = products.filter((p) => p !== product);
-    setProducts(updatedProducts);
+  const handleDelete = async (product) => {
+    try {
+      const response = await axios.delete(`http://localhost:9000/product/api/products/${product.product_id}`);
+      if (response.status === 204) {
+        const updatedProducts = products.filter((p) => p.product_id !== product.product_id);
+        setProducts(updatedProducts);
+      } else {
+        console.error('Error deleting product:', response.data.error);
+      }
+    } catch (error) {
+      console.error('Error deleting product:', error);
+    }
   };
+  const fid=data.data.fid;
 
   return (
     <div className="container">
@@ -94,6 +113,7 @@ function MyStore() {
               product={product}
               onEdit={() => handleEdit(product)}
               onDelete={() => handleDelete(product)}
+              farmer_id={fid}
             />
           </div>
         ))}
@@ -139,7 +159,8 @@ function MyStore() {
   );
 }
 
-function ProductCard({ product, onEdit, onDelete }) {
+function ProductCard({ product, onEdit, onDelete,farmer_id}) {
+  // console.log(product.);
   return (
     <Card style={{ marginBottom: '10px' }}>
       <Card.Body>
@@ -147,9 +168,10 @@ function ProductCard({ product, onEdit, onDelete }) {
         <Card.Text>Description: {product.description}</Card.Text>
         <Card.Text>Price: {product.price}</Card.Text>
         <Card.Text>Stock: {product.stock}</Card.Text>
-        <Card.Text>Organic: {product.organic ? 'Yes' : 'No'}</Card.Text>
+        <Card.Text>Organic: {product.is_organic ? 'Yes' : 'No'}</Card.Text>
         <Button variant="primary" onClick={onEdit} style={{ marginRight: '5px' }}>Edit</Button>
         <Button variant="danger" onClick={onDelete}>Delete</Button>
+        <FileUpload userInfo={product.farmer_id} pid={product.product_id}/>
       </Card.Body>
     </Card>
   );

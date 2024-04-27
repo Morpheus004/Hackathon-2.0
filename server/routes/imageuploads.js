@@ -26,11 +26,13 @@ router.post("/upload/single", uploadStorage.single("file"), (req, res) => {
   }
 
   const uid = req.body.uid; // Access the uid from the parsed req.body
+  console.log(uid);
   const extension = path.extname(file.originalname);
   console.log(extension);
+  const pid=req.body.pid;
   const newFilename = `${uid}_${pid}${extension}`;
   console.log(newFilename);
-  const newFilePath = path.join(__dirname, '..', 'uploads', newFilename);
+  const newFilePath = path.join(__dirname, '..', 'uploadedimages', newFilename);
 
   // Rename the uploaded file with the new filename
   fs.rename(file.path, newFilePath, (err) => {
@@ -46,7 +48,7 @@ router.post("/upload/single", uploadStorage.single("file"), (req, res) => {
 
 router.get('/download/:uid', (req, res) => {
   const uid = req.params.uid;
-  const uploadsDir = path.join(__dirname, '..', 'uploads');
+  const uploadsDir = path.join(__dirname, '..', 'uploadedimages');
 
   // Read the uploads directory and find the file with the matching uid
   fs.readdir(uploadsDir, (err, files) => {
@@ -72,7 +74,7 @@ router.get('/download/:uid', (req, res) => {
 router.get('/check-file/:uid', (req, res) => {
   // console.log(req);
   const uid = req.params.uid;
-  const uploadsDir = path.join(__dirname, '..', 'uploads');
+  const uploadsDir = path.join(__dirname, '..', 'uploadedimages');
 
   // Read the uploads directory and find the file with the matching uid
   fs.readdir(uploadsDir, (err, files) => {
