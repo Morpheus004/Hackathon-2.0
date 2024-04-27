@@ -98,4 +98,44 @@ router.get('/check-file/:uid', (req, res) => {
     res.json({ fileExists: true, file });
   });
 });
+
+router.get('/check-file/:uid/:pid', (req, res) => {
+  const uid = req.params.uid;
+  const pid = req.params.pid; // Get the product ID from the URL
+  const uploadsDir = path.join(__dirname, '..', 'uploadedimages');
+
+  // Read the uploads directory and find the file with the matching uid and pid
+  fs.readdir(uploadsDir, (err, files) => {
+    if (err) {
+      console.error('Error reading uploads directory:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+
+    const fileWithUidAndPid = files.find(file => file === `${uid}_${pid}.png`); // Assuming the file extension is .jpg
+
+    if (!fileWithUidAndPid) {
+      return res.json({ fileExists: false, fileUrl: null });
+    }
+
+    const filePath = path.join(uploadsDir, fileWithUidAndPid);
+    const fileUrl = `http://localhost:9000/file/image/${fileWithUidAndPid}`; // Construct the file URL
+
+    res.json({ fileExists: true, fileUrl });
+  });
+});
+
+router.get('/image/:uid/:pid', (req, res) => {
+  const uid = req.params.uid;
+  const pid = req.params.pid;
+  const uploadsDir = path.join(__dirname, '..', 'uploadedimages');
+  const filename = `${uid}_${pid}.png`; // Assuming the file extension is .jpg
+  const filePath = path.join(uploadsDir, filename);
+
+  res.sendFile(filePath, (err) => {
+    if (err) {
+      console.error('Error sending file:', err);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+});
 export default router;

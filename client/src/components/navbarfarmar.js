@@ -14,9 +14,9 @@ function NavScrollExample() {
   console.log(data);
   return (
     <>
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <Navbar expand="lg" className="bg-darker-green">
       <Container fluid>
-        <Navbar.Brand href="#">Farmer</Navbar.Brand>
+        <Navbar.Brand href="#" style={{ color: 'white' }}>Farmer</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
@@ -25,9 +25,9 @@ function NavScrollExample() {
             navbarScroll
           >
             <Nav.Link href="/farmer/mystore">MyStore</Nav.Link>
-            <Nav.Link href="#action2">Store</Nav.Link>
-            <Nav.Link href="#action2">Cart</Nav.Link>
-            <Nav.Link href="#action2">Profile</Nav.Link>
+            <Nav.Link href="/farmer/store">Store</Nav.Link>
+            <Nav.Link href="/farmer/cart">Cart</Nav.Link>
+            <Nav.Link href="/farmer/profile">Profile</Nav.Link>
             <NavDropdown title="Link" id="navbarScrollingDropdown">
               <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action4">
@@ -49,7 +49,7 @@ function NavScrollExample() {
               className="me-2"
               aria-label="Search"
             />
-            <Button variant="outline-success">Search</Button>
+            <Button variant="outline-light">Search</Button>
           </Form>
         </Navbar.Collapse>
       </Container>

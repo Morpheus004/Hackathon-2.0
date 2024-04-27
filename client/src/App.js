@@ -4,6 +4,9 @@ import Navbarfarmar, { farmerDataLoader } from './components/navbarfarmar';
 import MyStore from './components/MyStore';
 import { RouterProvider, createBrowserRouter, useRoutes } from 'react-router-dom';
 import { element } from 'prop-types';
+import Cart from './components/cart';
+import FarmerStore from './components/store';
+import FarmerProfile from './components/FarmerProfile';
 const router=createBrowserRouter([
   {
     path:'/',
@@ -15,7 +18,10 @@ const router=createBrowserRouter([
     id:'farmerloader',
     loader:farmerDataLoader,
     children:[
-      {path:'mystore',element:<MyStore/>}
+      {path:'mystore',element:<MyStore/>},
+      {path:'profile',element:<FarmerProfile/>},
+      {path:'store',element:<FarmerStore/>},
+      {path:'cart',element:<Cart/>}
     ]
   }
 ])

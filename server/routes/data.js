@@ -7,7 +7,7 @@ router.get("/farmer/:email", async (req, res) => {
   const userEmail = req.params.email;
   try {
     const { rows } = await db.query(
-      "SELECT users.user_id,username,email,role,farmer_id FROM users JOIN farmers ON farmers.user_id = users.user_id WHERE users.email = $1",
+      "SELECT users.user_id,username,email,role,farmer_id,bio,name,contact FROM users JOIN farmers ON farmers.user_id = users.user_id WHERE users.email = $1",
       [userEmail]
     );
     if (rows.length === 0) {
@@ -24,7 +24,7 @@ router.get("/customer/:email", async (req, res) => {
   const userEmail = req.params.email;
   try {
     const { rows } = await db.query(
-      "SELECT users.uid,username,email,role,customer_id FROM users JOIN customer ON users.user_id = customer.user_id WHERE users.email = $1",
+      "SELECT users.uid,username,email,role,customer_id,bio,name,contact FROM users JOIN customer ON users.user_id = customer.user_id WHERE users.email = $1",
       [userEmail]
     );
     if (rows.length === 0) {

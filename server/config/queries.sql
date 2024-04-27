@@ -67,4 +67,16 @@ CREATE TABLE order_Item (
   FOREIGN KEY (product_id) REFERENCES product(product_id)
 );
 
+SELECT constraint_name
+FROM information_schema.table_constraints
+WHERE table_name = 'orders'
+  AND constraint_type = 'FOREIGN KEY';
+
+
+alter table orders drop constraint orders_customer_id_fkey;
+alter table orders drop column customer_id;
+alter table orders add column user_id int;
+alter table orders add FOREIGN KEY(user_id) REFERENCES users(user_id);
+
+
 
