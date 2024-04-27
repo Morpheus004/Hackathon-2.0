@@ -33,7 +33,7 @@ router.post("/", async (req, res) => {
           let table;
           if (role === 'farmer') {
             table = 'farmers';
-          } else if (role === 'ustomer') {
+          } else if (role === 'customer') {
             table = 'customer';
           }
 
