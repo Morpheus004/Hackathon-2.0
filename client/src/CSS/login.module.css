@@ -8,6 +8,8 @@
   } */
   .LOGINPAGE {
     background-image: linear-gradient(90deg, #c7c5f4, #776bcc);
+    background-image: url('../CSS/images/img-7.png');
+    background-size: cover; 
     margin: 0;
     padding: 0;
     font-family: Raleway, sans-serif;
@@ -29,7 +31,7 @@
   /* Apply styles only to elements within the login page */
   .login-page {
     font-family: Arial, sans-serif;
-    background: linear-gradient(90deg, #c7c5f4, #776bcc);
+    background: linear-gradient(90deg, #155d07, #269b03);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -37,11 +39,11 @@
   }
   
   .screen {
-    background: linear-gradient(90deg, #5d54a4, #7c78b8);
+    background: linear-gradient(90deg, #1f6311, rgb(11, 110, 21));
     position: relative;
     height: 600px;
     width: 360px;
-    box-shadow: 0px 0px 24px #5c5696;
+    box-shadow: 0px 0px 24px #155103;
   }
   
   .screen__content {
@@ -61,12 +63,12 @@
     clip-path: inset(0 0 0 0);
   }
   
-  .screen__background__shape {
+  .screen_background_shape {
     transform: rotate(45deg);
     position: absolute;
   }
   
-  .screen__background__shape1 {
+  .screen_background_shape1 {
     height: 520px;
     width: 520px;
     background: #fff;
@@ -75,28 +77,28 @@
     border-radius: 0 72px 0 0;
   }
   
-  .screen__background__shape2 {
+  .screen_background_shape2 {
     height: 220px;
     width: 220px;
-    background: #6c63ac;
+    background: #205111;
     top: -172px;
     right: 0;
     border-radius: 32px;
   }
   
-  .screen__background__shape3 {
+  .screen_background_shape3 {
     height: 540px;
     width: 190px;
-    background: linear-gradient(270deg, #5d54a4, #6a679e);
+    background: linear-gradient(270deg, #1b640c, #155501);
     top: -24px;
     right: 0;
     border-radius: 32px;
   }
   
-  .screen__background__shape4 {
+  .screen_background_shape4 {
     height: 400px;
     width: 200px;
-    background: #7e7bb9;
+    background: #1e5a0d;
     top: 420px;
     right: 50px;
     border-radius: 60px;
@@ -116,7 +118,7 @@
   .login__icon {
     position: absolute;
     top: 30px;
-    color: #7875b5;
+    color: #1e560d;
   }
   
   .login__input {
@@ -134,7 +136,7 @@
   .login__input:focus,
   .login__input:hover {
     outline: none;
-    border-bottom-color: #6a679e;
+    border-bottom-color: #1d540c;
   }
   
   .login__submit {
@@ -143,14 +145,14 @@
     margin-top: 30px;
     padding: 16px 20px;
     border-radius: 26px;
-    border: 1px solid #d4d3e8;
+    border: 1px solid #a8b7a3;
     text-transform: uppercase;
     font-weight: 700;
     display: flex;
     align-items: center;
     width: 100%;
     color: #4c489d;
-    box-shadow: 0px 2px 2px #5c5696;
+    box-shadow: 0px 2px 2px #275519;
     cursor: pointer;
     transition: 0.2s;
   }
@@ -158,14 +160,14 @@
   .login__submit:active,
   .login__submit:focus,
   .login__submit:hover {
-    border-color: #6a679e;
+    border-color: #27501b;
     outline: none;
   }
   
   .button__icon {
     font-size: 24px;
     margin-left: auto;
-    color: #7875b5;
+    color: #2a5d1b;
   }
   
   .social-login {
@@ -188,7 +190,7 @@
     padding: 20px 10px;
     color: #fff;
     text-decoration: none;
-    text-shadow: 0px 0px 8px #7875b5;
+    text-shadow: 0px 0px 8px #296617;
   }
   
   .social-login__icon:hover {
