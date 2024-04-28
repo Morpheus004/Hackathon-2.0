@@ -79,4 +79,11 @@ alter table orders add column user_id int;
 alter table orders add FOREIGN KEY(user_id) REFERENCES users(user_id);
 
 
+SELECT constraint_name
+FROM information_schema.table_constraints
+WHERE table_name = 'order_item'
+  AND constraint_type = 'PRIMARY KEY';
+
+  alter table order_item drop constraint order_Item_pkey;
+alter table order_item add primary key(order_id,product_id);
 

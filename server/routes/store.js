@@ -77,4 +77,35 @@ router.get("/api/products", async (req, res) => {
       res.status(500).json({ error: "An unexpected error occurred" });
     }
   });
+
+  router.put("/api/update-quantity/:product_id", async (req, res) => {
+    const { product_id } = req.params;
+    const { quantity } = req.body;
+  
+    try {
+      const result = await db.query(
+        "UPDATE order_item SET quantity = $1 WHERE product_id = $2",
+        [quantity, product_id]
+      );
+      res.sendStatus(200);
+    } catch (error) {
+      console.error("Error updating quantity:", error);
+      res.status(500).json({ error: "An unexpected error occurred" });
+    }
+  });
+  
+  router.put("/api/checkout", async (req, res) => {
+    const { order_id, total_amount } = req.body;
+    try {
+      const result = await db.query(
+        "UPDATE orders SET total_amount = $1, status = 'checkout' WHERE order_id = $2",
+        [total_amount, order_id]
+      );
+      res.sendStatus(200);
+    } catch (error) {
+      console.error("Error updating total amount and status:", error);
+      res.status(500).json({ error: "An unexpected error occurred" });
+    }
+  });
+  
   export default router;

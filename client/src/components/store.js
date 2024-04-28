@@ -86,7 +86,6 @@ function Store() {
       const response = await axios.post(
         `http://localhost:9000/store/api/products/${data.data.user_id}`
       );
-  
       const oid = response.data.order_id;
       setOrderid(oid);
       setStatus('cart');
