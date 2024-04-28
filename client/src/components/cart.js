@@ -7,61 +7,47 @@ import axios from "axios";
 import { useRouteLoaderData } from "react-router-dom";
 import "./ShoppingCart.css";
 import ImageDisplay from './ImageDisplay';
-function ShoppingCart() {
-  // Get the data passed from the loader
-  const data = useRouteLoaderData("farmerloader");
 
-  // Initialize the cartItems state with an empty array
+function ShoppingCart() {
+  const data = useRouteLoaderData("farmerloader");
   const [cartItems, setCartItems] = useState([]);
 
-  // Function to fetch cart items from the API
   const fetchCartItems = async (user_id) => {
     try {
-      // Make a GET request to fetch selected product IDs for the user
       const response = await axios.get(
         `http://localhost:9000/store/api/selected-products/${user_id}`
       );
       const selectedProductIds = response.data;
 
-      // Map over the selected product IDs and fetch product details for each
       const fetchedCartItems = await Promise.all(
         selectedProductIds.map(async (productId) => {
           const productResponse = await axios.get(
             `http://localhost:9000/store/api/products/p/${productId}`
           );
-          return productResponse.data;
+          return { ...productResponse.data, quantity: 1 }; // Add quantity property to each item
         })
       );
 
-      console.log("Fetched cart items",fetchedCartItems); // Log the fetched cart items
-      setCartItems(fetchedCartItems); // Update the cartItems state with fetched data
+      console.log("Fetched cart items", fetchedCartItems);
+      setCartItems(fetchedCartItems);
     } catch (error) {
       console.error("Error fetching cart items:", error);
     }
   };
 
-  // Call the fetchCartItems function when the component mounts
   useEffect(() => {
-    const user_id = data.data.user_id; // Replace with the actual user ID
+    const user_id = data.data.user_id;
     fetchCartItems(user_id);
   }, []);
 
-  // Calculate total price
-  const totalPrice = cartItems.reduce(
-    (acc, item) => acc + item.price * item.stock,
-    0
-  );
-
-  // Function to remove an item from cart
   const removeFromCart = (id) => {
-    const updatedItems = cartItems.filter((item) => item.id !== id);
+    const updatedItems = cartItems.filter((item) => item.product_id !== id);
     setCartItems(updatedItems);
   };
 
-  // Function to increase quantity of an item in cart
   const increaseQuantity = (id) => {
     const updatedItems = cartItems.map((item) => {
-      if (item.id === id) {
+      if (item.product_id === id) {
         return { ...item, quantity: item.quantity + 1 };
       }
       return item;
@@ -69,18 +55,49 @@ function ShoppingCart() {
     setCartItems(updatedItems);
   };
 
-  // Function to decrease quantity of an item in cart
   const decreaseQuantity = (id) => {
     const updatedItems = cartItems.map((item) => {
-      if (item.id === id && item.quantity > 1) {
+      if (item.product_id === id && item.quantity > 1) {
         return { ...item, quantity: item.quantity - 1 };
       }
       return item;
     });
     setCartItems(updatedItems);
   };
-  console.log("Cart Items:",cartItems);
- 
+
+  // Calculate total price based on the price and quantity of each item
+  const totalPrice = cartItems.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
+
+  const handleCheckout = async () => {
+    try {
+      // Update quantity of each item in order_item table
+      await Promise.all(
+        cartItems.map(async (item) => {
+          await axios.put(`http://localhost:9000/store/api/update-quantity/${item.product_id}`, {
+            quantity: item.quantity
+          });
+        })
+      );
+      const oid=localStorage.getItem('orderId');
+      // Calculate total amount
+      const totalAmount = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+      // Update total amount and status in the orders table
+      await axios.put(`http://localhost:9000/store/api/checkout`, {
+        order_id:oid,
+        total_amount: totalAmount
+      });
+
+      // Reset cart after successful checkout
+      setCartItems([]);
+    localStorage.removeItem('orderId');
+    } catch (error) {
+      console.error("Error during checkout:", error);
+    }
+  };
+
   return (
     <div className="container">
       <h2 className="text-center mb-4">Shopping Cart</h2>
@@ -88,18 +105,16 @@ function ShoppingCart() {
         <div key={item.product_id} className="row mb-3">
           <div className="col">
             <Card className="cart-item d-flex align-items-center">
-              {/* <Card.Img src={item.image} alt={item.name} className="product-image" /> */}
-              <ImageDisplay farmer_id={item.farmer_id} product_id={item.product_id}/>
+              <ImageDisplay farmer_id={item.farmer_id} product_id={item.product_id} />
               <Card.Body className="d-flex flex-grow-1 align-items-center justify-content-between">
                 <div>
                   <Card.Title className="mb-0">{item.name}</Card.Title>
-                  {/* <p>{item.name}</p> */}
                   <div className="d-flex align-items-center">
                     <Button
                       variant="outline-secondary"
                       size="sm"
                       className="quantity-btn"
-                      onClick={() => decreaseQuantity(item.id)}
+                      onClick={() => decreaseQuantity(item.product_id)}
                       disabled={item.quantity <= 1}
                     >
                       -
@@ -109,7 +124,7 @@ function ShoppingCart() {
                       variant="outline-secondary"
                       size="sm"
                       className="quantity-btn"
-                      onClick={() => increaseQuantity(item.id)}
+                      onClick={() => increaseQuantity(item.product_id)}
                     >
                       +
                     </Button>
@@ -118,7 +133,7 @@ function ShoppingCart() {
                 <Button
                   variant="light"
                   className="delete-btn"
-                  onClick={() => removeFromCart(item.id)}
+                  onClick={() => removeFromCart(item.product_id)}
                 >
                   <FontAwesomeIcon icon={faTrash} />
                 </Button>
@@ -128,8 +143,10 @@ function ShoppingCart() {
         </div>
       ))}
       <div className="text-center mt-4">
-        <p className="mb-2">Total: ${totalPrice}</p>
-        <Button variant="primary">Proceed to Checkout</Button>
+        <p className="mb-2">Total: {totalPrice.toFixed(2)}</p>
+        <Button variant="primary" onClick={handleCheckout}>
+          Proceed to Checkout
+        </Button>
       </div>
     </div>
   );

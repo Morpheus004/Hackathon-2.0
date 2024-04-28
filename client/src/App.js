@@ -7,6 +7,7 @@ import { element } from 'prop-types';
 import Cart from './components/cart';
 import FarmerStore from './components/store';
 import FarmerProfile from './components/FarmerProfile';
+import Logout from './components/logout';
 const router=createBrowserRouter([
   {
     path:'/',
@@ -21,9 +22,10 @@ const router=createBrowserRouter([
       {path:'mystore',element:<MyStore/>},
       {path:'profile',element:<FarmerProfile/>},
       {path:'store',element:<FarmerStore/>},
-      {path:'cart',element:<Cart/>}
-    ]
-  }
+      {path:'cart',element:<Cart/>} 
+    ] 
+  },
+  {path:'/Logout',element:<Logout/>}
 ])
 function App() {
   return <RouterProvider router={router}/>;
