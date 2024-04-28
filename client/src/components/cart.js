@@ -4,9 +4,10 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import axios from "axios";
-import { useRouteLoaderData } from "react-router-dom";
+import { redirect, useNavigate, useRouteLoaderData } from "react-router-dom";
 import "./ShoppingCart.css";
 import ImageDisplay from './ImageDisplay';
+import { Navigate } from "react-router-dom";
 
 function ShoppingCart() {
   const data = useRouteLoaderData("farmerloader");
@@ -70,7 +71,7 @@ function ShoppingCart() {
     (acc, item) => acc + item.price * item.quantity,
     0
   );
-
+  const navigate=useNavigate();
   const handleCheckout = async () => {
     try {
       // Update quantity of each item in order_item table
@@ -93,6 +94,8 @@ function ShoppingCart() {
       // Reset cart after successful checkout
       setCartItems([]);
     localStorage.removeItem('orderId');
+    
+    redirect('/farmer/cart/review');
     } catch (error) {
       console.error("Error during checkout:", error);
     }

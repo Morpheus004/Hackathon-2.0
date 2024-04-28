@@ -21,6 +21,7 @@ function MyStore() {
     price: "",
     stock: "",
     organic: false,
+    discount:0,
   });
   const [productImages, setProductImages] = useState({});
   useEffect(() => {
@@ -69,6 +70,7 @@ function MyStore() {
       price: "",
       stock: "",
       organic: false,
+      discount:"",
     });
   };
 
@@ -206,6 +208,16 @@ function MyStore() {
                 onChange={handleInputChange}
               />
             </Form.Group>
+            <Form.Group controlId="productdiscount">
+              <Form.Label>Product Discount</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter product discount"
+                name="discount"
+                value={newProduct.discount}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
             <Form.Group controlId="productOrganic">
               <Form.Check
                 type="checkbox"
@@ -232,6 +244,9 @@ function MyStore() {
 
 function ProductCard({ product, onEdit, onDelete, farmer_id }) {
   // console.log(product.);
+  const discountedPrice = product.discount
+  ? product.price - (product.price * product.discount) / 100
+  : product.price;
   return (
     <Card style={{ marginBottom: "10px" }}>
       <ImageDisplay farmer_id={product.farmer_id} product_id={product.product_id} />
@@ -241,6 +256,9 @@ function ProductCard({ product, onEdit, onDelete, farmer_id }) {
         <Card.Text>Price: {product.price}</Card.Text>
         <Card.Text>Stock: {product.stock}</Card.Text>
         <Card.Text>Organic: {product.is_organic ? "Yes" : "No"}</Card.Text>
+        <Card.Text>Discount: {product.discount}%</Card.Text>
+        <Card.Text>Discounted Price: {discountedPrice}</Card.Text>
+
         <Button
           variant="primary"
           onClick={onEdit}

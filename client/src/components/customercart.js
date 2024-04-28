@@ -4,12 +4,12 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import axios from "axios";
-import { useRouteLoaderData } from "react-router-dom";
+import { useNavigate, useRouteLoaderData } from "react-router-dom";
 import "./ShoppingCart.css";
 import ImageDisplay from './ImageDisplay';
 
 function ShoppingCart() {
-  const data = useRouteLoaderData("farmerloader");
+  const data = useRouteLoaderData("customerloader");
   const [cartItems, setCartItems] = useState([]);
 
   const fetchCartItems = async (user_id) => {
@@ -70,6 +70,7 @@ function ShoppingCart() {
     (acc, item) => acc + item.price * item.quantity,
     0
   );
+  const navigate=useNavigate();
 
   const handleCheckout = async () => {
     try {
@@ -93,6 +94,7 @@ function ShoppingCart() {
       // Reset cart after successful checkout
       setCartItems([]);
     localStorage.removeItem('orderId');
+    navigate('/farmer/cart/review');
     } catch (error) {
       console.error("Error during checkout:", error);
     }

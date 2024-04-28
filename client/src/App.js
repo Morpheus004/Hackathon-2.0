@@ -13,7 +13,9 @@ import CustomerCart from './components/customercart';
 import CustomerProfile from './components/customerprofile';
 import CustomerStore from './components/customerstore';
 import Navbarcustomer,{customerDataLoader} from './components/Navbarcustomer'
-
+// import Review from './components/review'
+import ReviewPage from './components/review';
+import Schemes from './components/schemes'
 
 const router=createBrowserRouter([
   {
@@ -30,8 +32,13 @@ const router=createBrowserRouter([
       {path:'mystore',element:<MyStore/>},
       {path:'profile',element:<FarmerProfile/>},
       {path:'store',element:<FarmerStore/>},
-      {path:'cart',element:<Cart/>} 
+      {path:'cart',element:<Cart/>},
+      {path:'schemes',element:<Schemes/>} 
+
     ] 
+  },
+  {
+    path:'/farmer/cart/review',element:<ReviewPage/>
   },
   {
     path:'/customer',
@@ -41,9 +48,10 @@ const router=createBrowserRouter([
     children:[
       {path:'profile',element:<CustomerProfile/>},
       {path:'store',element:<CustomerStore/>},
-      {path:'cart',element:<CustomerCart/>} 
+      {path:'cart',element:<CustomerCart/>},   
     ] 
   },
+  
   {path:'/Logout',element:<Logout/>}
 ])
 function App() {

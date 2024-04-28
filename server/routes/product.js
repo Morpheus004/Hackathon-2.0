@@ -16,11 +16,11 @@ router.get("/api/products/:farmer_id", async (req, res) => {
   
 router.post("/api/products/:farmer_id", async (req, res) => {
     const farmer_id=req.params.farmer_id;
-    const { name, description,price,stock,organic } = req.body;
+    const { name, description,price,stock,organic,discount} = req.body;
     try {
       const { rows } = await db.query(
-        "INSERT INTO product (name, description,price,stock,is_organic,farmer_id) VALUES ($1, $2, $3, $4,$5,$6) RETURNING *;",
-        [name, description,price,stock,organic,farmer_id]
+        "INSERT INTO product (name, description,price,stock,is_organic,farmer_id,discount) VALUES ($1, $2, $3, $4,$5,$6,$7) RETURNING *;",
+        [name, description,price,stock,organic,farmer_id,discount]
       );
       res.status(201).json(rows[0]);
     } catch (error) {
@@ -31,11 +31,11 @@ router.post("/api/products/:farmer_id", async (req, res) => {
 
   router.put("/api/products/:product_id", async (req, res) => {
     const productId = req.params.product_id;
-    const { name, description, price, stock, organic } = req.body;
+    const { name, description, price, stock, organic,discount } = req.body;
     try {
       const { rows } = await db.query(
-        "UPDATE product SET name = $1, description = $2, price = $3, stock = $4, is_organic = $5 WHERE product_id = $6 RETURNING *;",
-        [name, description, price, stock, organic, productId]
+        "UPDATE product SET name = $1, description = $2, price = $3, stock = $4, is_organic = $5,discount=$6 WHERE product_id = $7 RETURNING *;",
+        [name, description, price, stock, organic,discount, productId]
       );
       if (rows.length === 0) {
         res.status(404).json({ error: "Product not found" });

@@ -147,6 +147,9 @@ function ProductCard({ product, onAddToCart, isSelected }) {
     marginBottom: '10px',
     backgroundColor: isSelected ? '#f0f0f0' : 'inherit'
   };
+  const discountedPrice = product.discount
+  ? product.price - (product.price * product.discount) / 100
+  : product.price;
 
   return (
     <Card style={cardStyle}>
@@ -154,6 +157,7 @@ function ProductCard({ product, onAddToCart, isSelected }) {
       <Card.Body>
         <Card.Title>{product.name}</Card.Title>
         <Card.Text>Description: {product.description}</Card.Text>
+        <Card.Text>Discounted Price: {discountedPrice}</Card.Text>
         <Card.Text>Price: {product.price}</Card.Text>
         <Card.Text>Stock: {product.stock}</Card.Text>
         <Card.Text>Organic: {product.is_organic ? 'Yes' : 'No'}</Card.Text>
