@@ -8,6 +8,7 @@ import {Outlet, useLoaderData}from 'react-router-dom';
 import axios from 'axios';
 import { getAuthToken } from "../utils/auth.js";
 import { jwtDecode } from "jwt-decode";
+import "./rough.css";
 
 function NavScrollExample() {
   const data=useLoaderData();
@@ -24,13 +25,14 @@ function NavScrollExample() {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-            <Nav.Link href="/farmer/home">Home</Nav.Link>
-            <Nav.Link href="/farmer/mystore">MyStore</Nav.Link>
-            <Nav.Link href="/farmer/store">Store</Nav.Link>
-            <Nav.Link href="/farmer/cart">Cart</Nav.Link>
-            <Nav.Link href="/farmer/profile">Profile</Nav.Link>
-            <Nav.Link href="/farmer/schemes">Institutions and schemes</Nav.Link>
-            <Nav.Link href="/logout">Logout</Nav.Link>
+            <Nav.Link href="/farmer/home" style={{color:'white'}}>Home</Nav.Link>
+            <Nav.Link href="/farmer/mystore" style={{color:'white'}}>MyStore</Nav.Link>
+            <Nav.Link href="/farmer/store" style={{color:'white'}}>Store</Nav.Link>
+            <Nav.Link href="/farmer/cart" style={{color:'white'}}>Cart</Nav.Link>
+            <Nav.Link href="/farmer/profile" style={{color:'white'}}>Profile</Nav.Link>
+            <Nav.Link href="/farmer/schemes" style={{color:'white'}}>Institutions and schemes</Nav.Link>
+            <Nav.Link href="/farmer/organicproducts" style={{color:'white'}}>Organic products</Nav.Link>
+            <Nav.Link href="/logout" style={{color:'white'}}>Logout</Nav.Link>
             </Nav>
           <Form className="d-flex">
             <Form.Control

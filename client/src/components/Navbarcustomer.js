@@ -15,7 +15,7 @@ function NavScroll() {
     <>
       <Navbar expand="lg" className="bg-darker-green">
         <Container fluid>
-          <Navbar.Brand href="#" >Customer</Navbar.Brand>
+          <Navbar.Brand href="#" style={{color:'white'}}>Customer</Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
@@ -23,9 +23,9 @@ function NavScroll() {
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
-              <Nav.Link href="/customer/cart">Cart</Nav.Link>
-              <Nav.Link href="/customer/profile" >Profile</Nav.Link>
-              <Nav.Link href="/customer/store">Store</Nav.Link>
+              <Nav.Link href="/customer/cart" style={{color:'white'}}>Cart</Nav.Link>
+              <Nav.Link href="/customer/profile" style={{color:'white'}} >Profile</Nav.Link>
+              <Nav.Link href="/customer/store" style={{color:'white'}}>Store</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

@@ -16,6 +16,7 @@ import Navbarcustomer,{customerDataLoader} from './components/Navbarcustomer'
 // import Review from './components/review'
 import ReviewPage from './components/review';
 import Schemes from './components/schemes'
+import OrganicProducts from './components/organicproducts';
 
 const router=createBrowserRouter([
   {
@@ -33,7 +34,8 @@ const router=createBrowserRouter([
       {path:'profile',element:<FarmerProfile/>},
       {path:'store',element:<FarmerStore/>},
       {path:'cart',element:<Cart/>},
-      {path:'schemes',element:<Schemes/>} 
+      {path:'schemes',element:<Schemes/>},
+      {path:'organicproducts',element:<OrganicProducts/>}
 
     ] 
   },
