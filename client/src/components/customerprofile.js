@@ -5,11 +5,11 @@ import farmerAvatar from './farmer-avatar.png'; // Import your farmer avatar ima
 import { useRouteLoaderData } from 'react-router-dom';
 import axios from 'axios';
 
-const FarmerProfile = () => {
-const data=useRouteLoaderData('farmerloader');
+const CustomerProfile = () => {
+const data=useRouteLoaderData('customerloader');
 
   const initialUserData = {
-    farmer_id:data.data.farmer_id,
+    customer_id:data.data.customer_id,
     user_id: data.data.user_id,
     name: data.data.name,
     contact: data.data.contact,
@@ -33,7 +33,7 @@ const data=useRouteLoaderData('farmerloader');
   };
   const handleSaveChanges = async () => {
     try {
-      const response = await axios.put(`http://localhost:9000/farmerprofile/api/farmers/${data.data.user_id}`, tempData);
+      const response = await axios.put(`http://localhost:9000/customerprofile/api/customers/${data.data.user_id}`, tempData);
       if (response.status === 200) {
         setUserData(tempData);
         setShowEditModal(false);
@@ -59,7 +59,7 @@ const data=useRouteLoaderData('farmerloader');
             <Card.Body>
               <Card.Title>{userData.name}</Card.Title>
               <Card.Subtitle className="mb-2 text-muted">User ID: {userData.user_id}</Card.Subtitle>
-              <Card.Subtitle className="mb-2 text-muted">Farmer ID: {userData.farmer_id}</Card.Subtitle>
+              <Card.Subtitle className="mb-2 text-muted">Customer ID: {userData.customer_id}</Card.Subtitle>
               <Card.Text>
                 <strong>Name:</strong> {userData.name}
               </Card.Text>
@@ -119,4 +119,4 @@ const data=useRouteLoaderData('farmerloader');
   );
 };
 
-export default FarmerProfile;
+export default CustomerProfile;

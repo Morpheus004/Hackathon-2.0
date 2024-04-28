@@ -29,6 +29,7 @@ function NavScrollExample() {
             <Nav.Link href="/farmer/store">Store</Nav.Link>
             <Nav.Link href="/farmer/cart">Cart</Nav.Link>
             <Nav.Link href="/farmer/profile">Profile</Nav.Link>
+            <Nav.Link href="/farmer/schemes">Institutions and schemes</Nav.Link>
             <Nav.Link href="/logout">Logout</Nav.Link>
             </Nav>
           <Form className="d-flex">

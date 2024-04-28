@@ -1,0 +1,15 @@
+/* ReviewPage.css */
+
+.rating-buttons {
+    display: flex;
+  }
+  
+  .rating-buttons button {
+    margin-right: 5px;
+  }
+  
+  .rating-buttons button.selected {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+  }

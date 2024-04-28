@@ -16,7 +16,7 @@ function Store() {
     //   is_organic: true
     // },
     // {
-    //   id: 2,
+    //   id: 2,cus
     //   name: 'Product 2',
     //   description: 'Description of Product 2',
     //   price: 20,
@@ -35,7 +35,7 @@ function Store() {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [message, setMessage] = useState('');
-  const data=useRouteLoaderData('farmerloader');
+  const data=useRouteLoaderData('customerloader');
   useEffect(() => {
     fetchProducts();
     fetchSelectedProducts();
@@ -147,6 +147,9 @@ function ProductCard({ product, onAddToCart, isSelected }) {
     marginBottom: '10px',
     backgroundColor: isSelected ? '#f0f0f0' : 'inherit'
   };
+  const discountedPrice = product.discount
+    ? product.price - (product.price * product.discount) / 100
+    : null; // Set discounted price to null if there's no discount
 
   return (
     <Card style={cardStyle}>
@@ -154,6 +157,11 @@ function ProductCard({ product, onAddToCart, isSelected }) {
       <Card.Body>
         <Card.Title>{product.name}</Card.Title>
         <Card.Text>Description: {product.description}</Card.Text>
+        {/* Conditionally render the discounted price if it's different from the original price */}
+        {discountedPrice !== null && (
+          <Card.Text>Discounted Price: {discountedPrice}</Card.Text>
+        )}
+        {/* Always render the original price */}
         <Card.Text>Price: {product.price}</Card.Text>
         <Card.Text>Stock: {product.stock}</Card.Text>
         <Card.Text>Organic: {product.is_organic ? 'Yes' : 'No'}</Card.Text>
@@ -169,5 +177,6 @@ function ProductCard({ product, onAddToCart, isSelected }) {
     </Card>
   );
 }
+
 
 export default Store;
