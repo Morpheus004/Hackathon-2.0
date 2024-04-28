@@ -1,0 +1,71 @@
+.body {
+    display: block; /* Ensure the div is displayed */
+  }
+
+/* Background image styles */
+.background-image {
+    background-image: url('../image/CarouselImage.png'); /* Set background image */
+    background-size: cover; /* Cover the entire area */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-position: center center; /* Center the image */
+    width: 100vw; /* Full width of the viewport */
+    height: 100vh; /* Full height of the viewport */
+    overflow: hidden; /* Hide any overflowing content */
+    z-index: -1; /* Ensure the background image is behind other content */
+}
+  
+  /* Carousel styles */
+  .my-carousel {
+    width: 100%; /* Set the width of the carousel */
+    margin-left: auto; /* Center the carousel horizontally */
+    margin-right: auto;
+    margin-top: 150px; /* Add top margin to shift the carousel down */
+  }
+  
+  .carousel-item {
+    text-align: center; /* Align text to the center */
+  }
+  
+  .carousel-image {
+    max-width: 100%; /* Set the maximum width of the image to 100% */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 60vh; /* Set the maximum height of the image to 70% of the viewport height */
+  }
+  
+  .caption-title1 {
+    position: relative;
+    top: -160px;
+    left: -332px;
+    font-size: 50px; /* Set the font size of the title */
+    font-weight: bold;
+    color: #c5d512; /* Set the color of the title */
+  }
+
+  .caption-title2 {
+    position: relative;
+    top: -150px;
+    left: -242px;
+    font-size: 50px; /* Set the font size of the title */
+    font-weight: bold;
+    color: #fcfdfa; /* Set the color of the title */
+  }
+  
+  .caption-text {
+    position: relative;
+    top: -130px;
+    left: 90px;
+    font-size: 16px; /* Set the font size of the text */
+    color: #c5d512; /* Set the color of the text */
+    width: 47%;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .caption-title {
+      font-size: 20px; /* Decrease font size for smaller screens */
+    }
+  
+    .caption-text {
+      font-size: 14px; /* Decrease font size for smaller screens */
+    }
+  }
