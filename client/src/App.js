@@ -8,6 +8,13 @@ import Cart from './components/cart';
 import FarmerStore from './components/store';
 import FarmerProfile from './components/FarmerProfile';
 import Logout from './components/logout';
+import Home from './components/home';
+import CustomerCart from './components/customercart';
+import CustomerProfile from './components/customerprofile';
+import CustomerStore from './components/customerstore';
+import Navbarcustomer,{customerDataLoader} from './components/Navbarcustomer'
+
+
 const router=createBrowserRouter([
   {
     path:'/',
@@ -19,10 +26,22 @@ const router=createBrowserRouter([
     id:'farmerloader',
     loader:farmerDataLoader,
     children:[
+      {path:'home',element:<Home/>},
       {path:'mystore',element:<MyStore/>},
       {path:'profile',element:<FarmerProfile/>},
       {path:'store',element:<FarmerStore/>},
       {path:'cart',element:<Cart/>} 
+    ] 
+  },
+  {
+    path:'/customer',
+    element:<Navbarcustomer/>,
+    id:'customerloader',
+    loader:customerDataLoader,
+    children:[
+      {path:'profile',element:<CustomerProfile/>},
+      {path:'store',element:<CustomerStore/>},
+      {path:'cart',element:<CustomerCart/>} 
     ] 
   },
   {path:'/Logout',element:<Logout/>}
