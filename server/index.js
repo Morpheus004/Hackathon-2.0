@@ -12,8 +12,6 @@ import storeRoute from "./routes/store.js"
 
 const app = express();
 const port = 9000;
-
-
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

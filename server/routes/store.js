@@ -13,6 +13,18 @@ router.get("/api/products", async (req, res) => {
     }
   });
 
+  router.get("/api/products/p/:productId", async (req, res) => {
+    try {
+      const productId=req.params.productId;
+      const { rows } = await db.query("SELECT * FROM product where product_id=$1",[productId]);
+      console.log(rows[0]);
+      res.json(rows[0]);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      res.status(500).json({ error: "An unexpected error occurred" });
+    }
+  });
+
   router.post("/api/products/:farmer_id", async (req, res) => {
     const farmer_id=req.params.farmer_id;
     try {
@@ -39,6 +51,29 @@ router.get("/api/products", async (req, res) => {
       res.status(201).json(rows[0]);
     } catch (error) {
       console.error("Error adding event:", error);
+      res.status(500).json({ error: "An unexpected error occurred" });
+    }
+  });
+
+
+  router.get("/api/selected-products/:user_id", async (req, res) => {
+    try {
+      const user_id = req.params.user_id; 
+      console.log("Printing for added in cart",user_id);  
+
+      const { rows } = await db.query(
+        "SELECT product_id FROM order_item oi " +
+        "JOIN orders o ON oi.order_id = o.order_id " +
+        "WHERE o.status = 'cart' AND o.user_id = $1",
+        [user_id]
+      );
+      console.log(rows);;
+      // Extracting product IDs from the rows
+      const selectedProductIds = rows.map(row => row.product_id);
+      console.log(selectedProductIds);
+      res.json(selectedProductIds);
+    } catch (error) {
+      console.error("Error fetching selected products:", error);
       res.status(500).json({ error: "An unexpected error occurred" });
     }
   });

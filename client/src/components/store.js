@@ -38,6 +38,14 @@ function Store() {
   const data=useRouteLoaderData('farmerloader');
   useEffect(() => {
     fetchProducts();
+    fetchSelectedProducts();
+
+    const storedOrderId = localStorage.getItem('orderId');
+
+    if (storedOrderId) {
+      setOrderid(storedOrderId);
+      setStatus('cart');
+    }
   }, []);
 
   const fetchProducts = async () => {
@@ -46,6 +54,19 @@ function Store() {
       setProducts(response.data);
     } catch (error) {
       console.error('Error fetching products:', error);
+    }
+  };
+
+  const fetchSelectedProducts = async () => {
+    try {
+      const response = await axios.get(`http://localhost:9000/store/api/selected-products/${data.data.user_id}`);
+      console.log("Printing in fetchSelectedProducts",data.data.user_id);
+      console.log(response.data);
+      const selectedProductIds = response.data;
+      console.log(selectedProductIds);
+      setSelectedProducts(selectedProductIds);
+    } catch (error) {
+      console.error('Error fetching selected products:', error);
     }
   };
 
@@ -60,27 +81,49 @@ function Store() {
     console.log(orderid); // This will log the updated orderid
   }, [orderid]);
   
-  const handleAddToCart = async(product) => {
-    if(status===null){
+  const handleAddToCart = async (product) => {
+    if (status === null) {
       const response = await axios.post(
-        "http://localhost:9000/store/api/products/" + data.data.user_id
+        `http://localhost:9000/store/api/products/${data.data.user_id}`
       );
-      
-      const oid=response.data.order_id;
+  
+      const oid = response.data.order_id;
       setOrderid(oid);
       setStatus('cart');
+  
+      // Store the orderId in localStorage
+      localStorage.setItem('orderId', oid);
+    } else {
+      // If status is not null, it means orderId has been set, proceed with adding to cart
+      addToCart(product);
     }
+  };
+  
+  // Separate function to handle adding to cart
+  const addToCart = async (product) => {
     const response2 = await axios.post(
-        "http://localhost:9000/store/api/orderitems/" + orderid,{pid:product.product_id,quantity:product.quantity,price:product.price}
-      );
-
+      `http://localhost:9000/store/api/orderitems/${orderid}`,
+      { pid: product.product_id, quantity: product.quantity, price: product.price }
+    );
+  
     setCartItems([...cartItems, product]);
-    setSelectedProducts([...selectedProducts, product]);
+    setSelectedProducts([...selectedProducts, product.product_id]);
     setMessage(`${product.name} added to cart`);
     setTimeout(() => {
       setMessage('');
     }, 3000);
-  }
+  
+    // Store the orderId in localStorage
+    localStorage.setItem('orderId', orderid);
+  };
+  
+  // useEffect to watch for orderId changes
+  useEffect(() => {
+    if (orderid !== null) {
+      // orderId has been updated, now you can proceed with any action that depends on orderId
+    }
+  }, [orderid]);
+  
   return (
     <div className="container">
       <h2 style={{ marginTop: '20px' }}>Products</h2>
@@ -90,7 +133,7 @@ function Store() {
             <ProductCard
               product={product}
               onAddToCart={() => handleAddToCart(product)}
-              isSelected={selectedProducts.some(selectedProduct => selectedProduct.id === product.id)}
+              isSelected={selectedProducts.includes(product.product_id)}
             />
           </div>
         ))}
